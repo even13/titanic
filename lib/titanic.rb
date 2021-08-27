@@ -34,34 +34,16 @@ class Titanic
   end
 
   def survival_rate_by_class
-    first_class_survival_rate
-    second_class_survival_rate
-    third_class_survival_rate
-
-    "survival rate by class: #{first_class_survival_rate}% in 1st, #{second_class_survival_rate}% in 2nd, #{third_class_survival_rate}% in 3rd"
+    "survival rate by class: #{class_survival_rate(1)}% in 1st, #{class_survival_rate(2)}% in 2nd, #{class_survival_rate(3)}% in 3rd"
   end
 
   private
 
-  def first_class_survival_rate
-    first_class = @table.select { |row| row['Pclass'] == '1' }
-    first_class_survivors = @table.select { |row| row['Pclass'] == '1' && row['Survived'] == '1' }
+  def class_survival_rate(passenger_class)
+    passengers_class = @table.select { |row| row['Pclass'] == passenger_class.to_s }
+    class_survivors = @table.select { |row| row['Pclass'] == passenger_class.to_s && row['Survived'] == '1' }
 
-    first_class_survival_rate = 100 * first_class_survivors.length / first_class.length
-  end
-
-  def second_class_survival_rate
-    second_class = @table.select { |row| row['Pclass'] == '2' }
-    second_class_survivors = @table.select { |row| row['Pclass'] == '2' && row['Survived'] == '1' }
-
-    second_class_survival_rate = 100 * second_class_survivors.length / second_class.length
-  end
-
-  def third_class_survival_rate
-    third_class = @table.select { |row| row['Pclass'] == '3' }
-    third_class_survivors = @table.select { |row| row['Pclass'] == '3' && row['Survived'] == '1' }
-
-    third_class_survival_rate = 100 * third_class_survivors.length / third_class.length
+    100 * class_survivors.length / passengers_class.length
   end
 end
 
